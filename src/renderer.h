@@ -34,6 +34,14 @@ namespace harlan {
                                     colorRenderbuffer);
       */
 
+      setPointers = false;
+      rotX = 45.0f;
+      rotY = 45.0f;
+      rotZ = 0.0f;
+      transX = 0.0f;
+      transY = 0.0f;
+      transZ = 0.0f;
+
       setup ();
       initializeTextures ();
     }
@@ -58,15 +66,23 @@ namespace harlan {
       glViewport (0, 0, width, height);
 
       glMatrixMode (GL_PROJECTION);
-      glLoadIdentity ();
-
-      glOrtho (0, width, height, 0, 1, -1);
+      glFrustum (-0.5f, 0.5f, -0.5f, 0.5f, 1.0f, 3.0f);
 
       glMatrixMode (GL_MODELVIEW);
+      glTranslatef (0.0f, 0.0f, -2.0f);
 
-      glEnable (GL_TEXTURE_2D);
+      glEnable (GL_DEPTH_TEST);
+      glEnable (GL_NORMALIZE);
 
-      glLoadIdentity ();
+      //glLoadIdentity ();
+
+      //glOrtho (0, width, height, 0, 1, -1);
+
+      //glMatrixMode (GL_MODELVIEW);
+
+      //glEnable (GL_TEXTURE_2D);
+
+      //glLoadIdentity ();
     }
 
     void initializeTextures () {
@@ -161,16 +177,84 @@ namespace harlan {
     void resize () {
     }
 
+    void drawPage (Page *page, GLfloat scale) {
+      glPushMatrix ();
+
+      if (!setPointers) {
+        glVertexPointer (3, GL_FLOAT, 0, page->getVertices());
+        glTexCoordPointer (2, GL_FLOAT, 0, page->getTexCoords());
+
+        setPointers = true;
+      }
+
+      glRotatef (270.0f, 1.0f, 0.0f, 0.0f);
+      glScalef (0.05f * scale, 0.05f * scale, 0.05f * scale);
+      glTranslatef (0.0f, 0.0f, -50.0f);
+
+      glDrawElements (GL_TRIANGLE_STRIP, page->stripLength(),
+                      GL_UNSIGNED_SHORT, page->getFrontStrip ());
+
+      glPopMatrix ();
+    }
+
+#define ROT_FACTOR 0.05
+
+    void update () {
+      rotX += 360.0f * ROT_FACTOR;
+      rotY += 360.0f * ROT_FACTOR;
+
+      while (rotX >= 360.0f)
+        rotX -= 360.0f;
+      while (rotY >= 360.0f)
+        rotY -= 360.0f;
+
+      printf ("rot: %f, %f\n", rotX, rotY);
+    }
+
     void render (Page *page) {
       Vector3f *vertices = page->getVertices ();
       Vector2f *texCoords = page->getTexCoords ();
 
-      glMatrixMode (GL_MODELVIEW);
       glLoadIdentity ();
-
       glClearColor (0.2f, 0.2f, 0.2f, 1.0f);
-      //glClearColor((128.0f / 255.0f), 1.0f, 1.0f, 1.0f);
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+      rotX = 90.0f;
+      rotY = 90.0f;
+
+      //update ();
+
+      //glMatrixMode (GL_MODELVIEW);
+      //glLoadIdentity ();
+
+
+      glBindTexture (GL_TEXTURE_2D, texture[0]);
+
+      glEnable (GL_TEXTURE_2D);
+
+      glEnableClientState (GL_VERTEX_ARRAY);
+      glEnableClientState (GL_TEXTURE_COORD_ARRAY);
+
+      glPushMatrix ();
+      glTranslatef (transX, transY, transZ);
+      glRotatef (rotX, 1.0f, 0.0f, 0.0f);
+      glRotatef (rotY, 0.0f, 1.0f, 0.0f);
+      glRotatef (rotZ, 0.0f, 0.0f, 1.0f);
+
+      drawPage (page, 1.0f);
+
+      glPopMatrix ();
+      glDisable (GL_TEXTURE_2D);
+      glDisableClientState (GL_VERTEX_ARRAY);
+      glDisableClientState (GL_TEXTURE_COORD_ARRAY);
+
+      /*
+
+      glClearColor((128.0f / 255.0f), 1.0f, 1.0f, 1.0f);
       glClear (GL_COLOR_BUFFER_BIT);
+
+      glRotatef (27.0f, 1.0f, 0.0f, 0.0f);
+      glTranslatef (0.0f, 0.0f, -25.0f);
 
       glEnableClientState (GL_VERTEX_ARRAY);
       glVertexPointer (3, GL_FLOAT, 0, vertices);
@@ -188,15 +272,24 @@ namespace harlan {
       glDrawElements (GL_TRIANGLE_STRIP, len, GL_UNSIGNED_SHORT, back);
 
       glBindRenderbufferEXT (GL_RENDERBUFFER_EXT, colorRenderbuffer);
+      */
     }
 
   protected:
     GLint width;
     GLint height;
+    bool  setPointers;
 
     GLuint defaultFramebuffer;
     GLuint colorRenderbuffer;
     GLuint texture[2];
+
+    GLfloat transX;
+    GLfloat transY;
+    GLfloat transZ;
+    GLfloat rotX;
+    GLfloat rotY;
+    GLfloat rotZ;
   };
 
 }

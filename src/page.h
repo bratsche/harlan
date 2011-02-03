@@ -97,6 +97,7 @@ namespace harlan {
       }
 
       stripify ();
+      deform ();
     }
 
     void stripify () {
@@ -148,6 +149,30 @@ namespace harlan {
             backStrip[i++] = offset + cx;
           }
         }
+      }
+    }
+
+    void deform () {
+      Vector2f in;
+      Vector3f tmp;
+      Vector3f *out;
+
+      float R, r, beta;
+
+      for (int i = 0; i < n_vertices; i++) {
+        in = inMesh[i];
+        R = sqrt (in.x * in.x + pow (in.y - translation, 2.0f));
+        r = R * sin (theta);
+        beta = asin (in.x / R) / sin (theta);
+
+        tmp.x = r * sin (beta);
+        tmp.y = R + translation - r * (1.0f - cos (beta)) * sin (theta);
+        tmp.z = r * (1.0f - cos (beta)) * cos (theta);
+
+        out = &outMesh[i];
+        out->x = (tmp.x * cos (rotation) - tmp.z * sin (rotation));
+        out->y = tmp.y;
+        out->z = (tmp.x * sin (rotation) + tmp.z * cos (rotation));
       }
     }
 
