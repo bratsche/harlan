@@ -189,7 +189,7 @@ namespace harlan {
 
       glRotatef (270.0f, 1.0f, 0.0f, 0.0f);
       glScalef (0.05f * scale, 0.05f * scale, 0.05f * scale);
-      glTranslatef (0.0f, 0.0f, 0.0f);
+      glTranslatef (0.0f, 0.0f, -20.0f);
 
       glDrawElements (GL_TRIANGLE_STRIP, page->stripLength(),
                       GL_UNSIGNED_SHORT, page->getFrontStrip ());
