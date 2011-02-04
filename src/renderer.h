@@ -193,10 +193,6 @@ namespace harlan {
 
       //update ();
 
-      //glMatrixMode (GL_MODELVIEW);
-      //glLoadIdentity ();
-
-
       glBindTexture (GL_TEXTURE_2D, texture[0]);
 
       glEnable (GL_TEXTURE_2D);
