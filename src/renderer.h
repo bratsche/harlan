@@ -75,10 +75,8 @@ namespace harlan {
 
       SDL_Surface *surface;
 
-      if ((surface = IMG_Load ("front512.png"))) {
+      if ((surface = IMG_Load ("BWV605.png"))) {
         GLint n_colors = surface->format->BytesPerPixel;
-
-        printf ("Loaded front512.png\n");
 
         if (n_colors == 4) {
           if (surface->format->Rmask == 0x000000ff)
@@ -104,10 +102,8 @@ namespace harlan {
         SDL_FreeSurface (surface);
       }
 
-      if ((surface = IMG_Load ("back512.png"))) {
+      if ((surface = IMG_Load ("BWV605.png"))) {
         GLint n_colors = surface->format->BytesPerPixel;
-
-        printf ("Loaded back512.png\n");
 
         if (n_colors == 4) {
           if (surface->format->Rmask == 0x000000ff)
