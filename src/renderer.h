@@ -53,7 +53,7 @@ namespace harlan {
       const GLfloat znear = 0.01f;
       const GLfloat zfar = 100.0f;
       const GLfloat view = 40.0f;
-      GLfloat size = znear * tanf(DEGREES_TO_RADIANS (view) / 2.0f);
+      GLfloat size = znear * tanf (DEGREES_TO_RADIANS (view) / 2.0f);
       GLfloat aspect = (GLfloat)width / height;
 
       glClearColor (0, 0, 0, 0);
@@ -63,7 +63,7 @@ namespace harlan {
       glMatrixMode (GL_PROJECTION);
       glFrustum (-size, size, -size / aspect, size / aspect, znear, zfar);
 
-      glTranslatef(0.0f, -0.025f, 0.85f);
+      glTranslatef (0.0f, -0.025f, 0.85f);
 
       glMatrixMode (GL_MODELVIEW);
 

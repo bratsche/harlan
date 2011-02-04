@@ -95,8 +95,8 @@ namespace harlan {
           inMesh[i].x = px;
           inMesh[i].y = py;
 
-          texCoords[i].x = (float)ix / columns;
-          texCoords[i].y = (float)iy / rows;
+          texCoords[i].x = (float)(cx - ix) / columns;
+          texCoords[i].y = (float)(cy - iy) / rows;
 
           i++;
         }
@@ -104,7 +104,6 @@ namespace harlan {
 
       stripify ();
       updateTime (0.0);
-      //deform ();
     }
 
     void stripify () {
