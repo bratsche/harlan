@@ -21,19 +21,6 @@ namespace harlan {
       printf ("OpenGL vendor: %s\n", glGetString (GL_VENDOR));
       printf ("OpenGL renderer: %s\n", glGetString (GL_RENDERER));
 
-      /*
-      glGenFramebuffersEXT (1, &defaultFramebuffer);
-      glGenRenderbuffersEXT (1,&colorRenderbuffer);
-
-      glBindFramebufferEXT (GL_FRAMEBUFFER_EXT,defaultFramebuffer);
-      glBindRenderbufferEXT (GL_RENDERBUFFER_EXT, colorRenderbuffer);
-
-      glFramebufferRenderbufferEXT (GL_FRAMEBUFFER_EXT,
-                                    GL_COLOR_ATTACHMENT0_EXT,
-                                    GL_RENDERBUFFER_EXT,
-                                    colorRenderbuffer);
-      */
-
       setPointers = false;
       rotX = 45.0f;
       rotY = 90.0f;
