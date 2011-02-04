@@ -3,6 +3,8 @@
 
 #include "vertex.h"
 
+#define RAD (180.0f / M_PI)
+
 namespace harlan {
 
   class Page
@@ -38,6 +40,10 @@ namespace harlan {
         delete [] frontStrip;
       if (backStrip != NULL)
         delete [] backStrip;
+    }
+
+    float funcLinear (float ft, float f0, float f1) {
+      return f0 + (f1 - f0) * ft;
     }
 
     Vector3f* getVertices () {
@@ -97,7 +103,8 @@ namespace harlan {
       }
 
       stripify ();
-      deform ();
+      updateTime (0.0);
+      //deform ();
     }
 
     void stripify () {
@@ -151,6 +158,46 @@ namespace harlan {
         }
       }
     }
+
+  public:
+    void updateTime (float time) {
+      float angle1 = 90.0f / RAD;
+      float angle2 = 8.0f / RAD;
+      float angle3 = 6.0f / RAD;
+      float A1 = -15.0f;
+      float A2 = -2.5f;
+      float A3 = -3.5f;
+      float theta1 = 0.05f;
+      float theta2 = 0.5f;
+      float theta3 = 10.0f;
+      float theta4 = 2.0f;
+
+      float f1, f2, dt;
+
+      rotation = time * M_PI;
+
+      if (time <= 0.15f) {
+        dt = time / 0.15;
+        f1 = sin (M_PI * pow (dt, theta1) / 2.0);
+        f2 = sin (M_PI * pow (dt, theta2) / 2.0);
+        theta = funcLinear (f1, angle1, angle2);
+        translation = funcLinear (f2, A1, A2);
+      } else if (time <= 0.4) {
+        dt = (time - 0.15) / 0.25;
+        theta = funcLinear (dt, angle2, angle3);
+        translation = funcLinear (dt, A2, A3);
+      } else if (time <= 1.0) {
+        dt = (time - 0.4) / 0.6;
+        f1 = sin (M_PI * pow (dt, theta3) / 2.0);
+        f2 = sin (M_PI * pow (dt, theta4) / 2.0);
+        theta = funcLinear (f1, angle3, angle1);
+        translation = funcLinear (f2, A3, A1);
+      }
+
+      deform ();
+    }
+
+  protected:
 
     void deform () {
       Vector2f in;

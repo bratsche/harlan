@@ -36,11 +36,13 @@ namespace harlan {
 
       setPointers = false;
       rotX = 45.0f;
-      rotY = 45.0f;
+      rotY = 90.0f;
       rotZ = 0.0f;
       transX = 0.0f;
       transY = 0.0f;
       transZ = 0.0f;
+
+      time = 0.0;
 
       setup ();
       initializeTextures ();
@@ -74,7 +76,7 @@ namespace harlan {
       glMatrixMode (GL_PROJECTION);
       glFrustum (-size, size, -size / aspect, size / aspect, znear, zfar);
 
-      glTranslatef(0.04f, 0.025f, 0.85f);
+      glTranslatef(0.0f, -0.025f, 0.85f);
 
       glMatrixMode (GL_MODELVIEW);
 
@@ -168,7 +170,20 @@ namespace harlan {
 
 #define ROT_FACTOR 0.05
 
-    void update () {
+    void update (Page *page) {
+      page->updateTime (time);
+
+      time += 0.01;
+      if (time >= 1.0)
+        time -= 1.0;
+
+      /*
+      rotY += 20.0f;
+      if (rotY > 360.0f)
+        rotY -= 360.0f;
+      */
+
+      /*
       rotX += 360.0f * ROT_FACTOR;
       rotY += 360.0f * ROT_FACTOR;
 
@@ -178,6 +193,7 @@ namespace harlan {
         rotY -= 360.0f;
 
       printf ("rot: %f, %f\n", rotX, rotY);
+      */
     }
 
     void render (Page *page) {
@@ -189,9 +205,9 @@ namespace harlan {
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
       rotX = 90.0f;
-      rotY = 180.0f;
+      rotY = 0.0f;
 
-      //update ();
+      update (page);
 
       glBindTexture (GL_TEXTURE_2D, texture[0]);
 
@@ -229,6 +245,8 @@ namespace harlan {
     GLfloat rotX;
     GLfloat rotY;
     GLfloat rotZ;
+
+    float time;
   };
 
 }
