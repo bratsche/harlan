@@ -8,6 +8,9 @@
 #include "renderer.h"
 #include "page.h"
 
+#define WIDTH  1024
+#define HEIGHT 600
+
 using namespace harlan;
 
 int main (int argc, char **argv)
@@ -42,7 +45,7 @@ int main (int argc, char **argv)
   SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
   SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
 
-  window = SDL_SetVideoMode (800, 600, 0,
+  window = SDL_SetVideoMode (WIDTH, HEIGHT, 0,
                              SDL_OPENGL | SDL_RESIZABLE | SDL_HWSURFACE | SDL_DOUBLEBUF);
 
   if (!window)
@@ -51,7 +54,7 @@ int main (int argc, char **argv)
       return 0;
     }
 
-  renderer = new Renderer (800, 600);
+  renderer = new Renderer (WIDTH, HEIGHT);
   page = new Page ();
 
   while (loop)

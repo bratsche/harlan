@@ -8,7 +8,7 @@
 #include "vertex.h"
 #include "page.h"
 
-#define DEG2RAD(degrees) (degrees / 180.0f * M_PI)
+#define DEGREES_TO_RADIANS(degrees) (degrees / 180.0f * M_PI)
 
 namespace harlan {
 
@@ -61,18 +61,26 @@ namespace harlan {
     }
 
     void setup () {
+      const GLfloat znear = 0.01f;
+      const GLfloat zfar = 100.0f;
+      const GLfloat view = 40.0f;
+      GLfloat size = znear * tanf(DEGREES_TO_RADIANS (view) / 2.0f);
+      GLfloat aspect = (GLfloat)width / height;
+
       glClearColor (0, 0, 0, 0);
 
       glViewport (0, 0, width, height);
 
       glMatrixMode (GL_PROJECTION);
-      glFrustum (-0.5f, 0.5f, -0.5f, 0.5f, 1.0f, 3.0f);
+      glFrustum (-size, size, -size / aspect, size / aspect, znear, zfar);
+
+      glTranslatef(0.04f, 0.025f, 0.85f);
 
       glMatrixMode (GL_MODELVIEW);
-      glTranslatef (0.0f, 0.0f, -2.0f);
+      //glTranslatef (0.0f, 0.0f, -2.0f);
 
       glEnable (GL_DEPTH_TEST);
-      glEnable (GL_NORMALIZE);
+      //glEnable (GL_NORMALIZE);
 
       //glLoadIdentity ();
 
@@ -220,7 +228,7 @@ namespace harlan {
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
       rotX = 90.0f;
-      rotY = 90.0f;
+      rotY = 180.0f;
 
       //update ();
 
