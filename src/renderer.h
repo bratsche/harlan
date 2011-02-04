@@ -77,51 +77,12 @@ namespace harlan {
       glTranslatef(0.04f, 0.025f, 0.85f);
 
       glMatrixMode (GL_MODELVIEW);
-      //glTranslatef (0.0f, 0.0f, -2.0f);
 
       glEnable (GL_DEPTH_TEST);
-      //glEnable (GL_NORMALIZE);
-
-      //glLoadIdentity ();
-
-      //glOrtho (0, width, height, 0, 1, -1);
-
-      //glMatrixMode (GL_MODELVIEW);
-
-      //glEnable (GL_TEXTURE_2D);
-
-      //glLoadIdentity ();
     }
 
     void initializeTextures () {
       GLenum textureFormat;
-
-      /*
-      glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, defaultFramebuffer);
-
-      const GLfloat near = 0.01f;
-      const GLfloat far  = 100.0f;
-      const GLfloat view = 40.0f;
-
-      GLfloat size = near * tanf (DEG2RAD (view) / 2.0f);
-      GLfloat aspect = (GLfloat)width / height;
-
-      GLenum textureFormat;
-
-      glViewport (0, 0, width, height);
-
-      glMatrixMode (GL_PROJECTION);
-      glLoadIdentity ();
-
-      glOrtho(0, width, height, 0, 1, -1);
-
-      glFrustum (-size, size, -size / aspect, size / aspect, near, far);
-      //glTranslatef (0.0f, -0.5f, -2.5f);
-
-      glEnable (GL_DEPTH_TEST);
-      glEnable (GL_CULL_FACE);
-      glEnable (GL_TEXTURE_2D);
-      */
 
       SDL_Surface *surface;
 
@@ -255,32 +216,6 @@ namespace harlan {
       glDisable (GL_TEXTURE_2D);
       glDisableClientState (GL_VERTEX_ARRAY);
       glDisableClientState (GL_TEXTURE_COORD_ARRAY);
-
-      /*
-
-      glClearColor((128.0f / 255.0f), 1.0f, 1.0f, 1.0f);
-      glClear (GL_COLOR_BUFFER_BIT);
-
-      glRotatef (27.0f, 1.0f, 0.0f, 0.0f);
-      glTranslatef (0.0f, 0.0f, -25.0f);
-
-      glEnableClientState (GL_VERTEX_ARRAY);
-      glVertexPointer (3, GL_FLOAT, 0, vertices);
-      glEnableClientState (GL_TEXTURE_COORD_ARRAY);
-      glTexCoordPointer (2, GL_FLOAT, 0, texCoords);
-
-      GLushort *front = page->getFrontStrip ();
-      GLushort *back = page->getBackStrip ();
-      GLuint len = page->stripLength ();
-
-      glBindTexture (GL_TEXTURE_2D, texture[0]);
-      glDrawElements (GL_TRIANGLE_STRIP, len, GL_UNSIGNED_SHORT, front);
-
-      glBindTexture (GL_TEXTURE_2D, texture[1]);
-      glDrawElements (GL_TRIANGLE_STRIP, len, GL_UNSIGNED_SHORT, back);
-
-      glBindRenderbufferEXT (GL_RENDERBUFFER_EXT, colorRenderbuffer);
-      */
     }
 
   protected:
