@@ -13,8 +13,11 @@ namespace harlan {
     Page () {
       width = 0.8f;
       height = 1.0f;
-      columns = 20; // 8; // 20
-      rows = 25; //10;   // 25
+      columns = 20;
+      rows = 25;
+
+      flipping = false;
+      time = 0.0;
 
       theta = 90.0f;
       rotation = 0.0f;
@@ -102,19 +105,17 @@ namespace harlan {
         }
       }
 
+      time = 0.0;
+
       stripify ();
-      updateTime (0.0);
+      updateTime ();
     }
 
     void stripify () {
       int cx = columns + 1;
       int cy = rows + 1;
 
-      printf ("%d columns, %d rows\n", columns, rows);
-
       stripLen = (cx * 2) * (cy - 1) + (cy - 2);
-
-      printf ("len == %d\n", stripLen);
 
       if (frontStrip != NULL)
         delete [] frontStrip;
@@ -159,7 +160,14 @@ namespace harlan {
     }
 
   public:
-    void updateTime (float time) {
+    void flip () {
+      flipping = true;
+    }
+
+    void updateTime () {
+      if (!flipping)
+        return;
+
       float angle1 = 90.0f / RAD;
       float angle2 = 8.0f / RAD;
       float angle3 = 6.0f / RAD;
@@ -172,6 +180,13 @@ namespace harlan {
       float theta4 = 2.0f;
 
       float f1, f2, dt;
+
+      time += 0.01;
+      if (time >= 1.0) {
+        time = 0.0;
+        flipping = false;
+        return;
+      }
 
       rotation = time * M_PI;
 
@@ -238,6 +253,9 @@ namespace harlan {
 
     int n_faces;
     int n_vertices;
+
+    float time;
+    bool flipping;
 
     Vector2f *inMesh;
     Vector3f *outMesh;

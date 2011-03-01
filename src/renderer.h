@@ -154,11 +154,13 @@ namespace harlan {
 #define ROT_FACTOR 0.05
 
     void update (Page *page) {
-      page->updateTime (time);
+      page->updateTime ();
 
+      /*
       time += 0.01;
       if (time >= 1.0)
         time -= 1.0;
+      */
 
       /*
       rotY += 20.0f;

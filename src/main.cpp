@@ -13,6 +13,8 @@
 
 using namespace harlan;
 
+bool keyDown = false;
+
 int main (int argc, char **argv)
 {
   SDL_Surface *window = NULL;
@@ -71,7 +73,19 @@ int main (int argc, char **argv)
           break;
 
         case SDL_KEYDOWN:
+          if (!keyDown) {
+            keyDown = true;
+          }
           break;
+
+        case SDL_KEYUP:
+          if (keyDown) {
+            keyDown = false;
+
+            if (event.key.keysym.sym == SDLK_SPACE) {
+              page->flip();
+            }
+          }
 
         case SDL_VIDEORESIZE:
           break;
